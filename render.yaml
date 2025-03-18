@@ -10,13 +10,6 @@ services:
     envVars:
       - key: ARGILLA_HOME_PATH
         value: /var/lib/argilla
-      - key: ARGILLA_DATABASE_URL
-        value: postgresql+asyncpg://postgres:${POSTGRES_PASSWORD}@postgres-db:5432/argilla
-      - key: ARGILLA_REDIS_URL
-        fromService:
-          type: redis
-          name: redis
-          property: connectionString
       - key: USERNAME
         value: argilla
       - key: PASSWORD
@@ -24,25 +17,4 @@ services:
       - key: API_KEY
         generateValue: true
       - key: WORKSPACE
-        value: default
-
-  # PostgreSQL Database
-  - type: pserv
-    name: postgres-db
-    runtime: docker
-    repo: https://github.com/render-examples/postgres
-    plan: standard
-    envVars:
-      - key: POSTGRES_USER
-        value: postgres
-      - key: POSTGRES_PASSWORD
-        generateValue: true
-      - key: POSTGRES_DB
-        value: argilla
-
-  # Redis service
-  - type: redis
-    name: redis
-    ipAllowList:
-      - source: 0.0.0.0/0
-        description: everywhere 
+        value: default 
