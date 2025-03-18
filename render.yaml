@@ -1,0 +1,76 @@
+services:
+  # Main Argilla API service using Docker image
+  - type: web
+    name: argilla-api
+    runtime: docker
+    repo: https://github.com/the-answerai/argilla.git
+    branch: feature/nodejs-answeraiintegration
+    dockerfilePath: ./Dockerfile
+    plan: standard
+    envVars:
+      - key: ARGILLA_HOME_PATH
+        value: /var/lib/argilla
+      - key: USERNAME
+        value: argilla
+      - key: PASSWORD
+        generateValue: true
+      - key: API_KEY
+        generateValue: true
+      - key: WORKSPACE
+        value: default
+
+  # Background worker service
+  - type: worker
+    name: argilla-worker
+    runtime: docker
+    dockerContext: ./examples/deployments/docker
+    dockerfilePath: ./examples/deployments/docker/Dockerfile
+    plan: standard
+    envVars:
+      - key: ARGILLA_HOME_PATH
+        value: /var/lib/argilla
+      - key: ARGILLA_ELASTICSEARCH
+        value: http://elasticsearch:9200
+      - key: ARGILLA_DATABASE_URL
+        value: postgresql+asyncpg://postgres:${POSTGRES_PASSWORD}@postgres-db:5432/argilla
+      - key: ARGILLA_REDIS_URL
+        value: redis://redis:6379/0
+      - key: BACKGROUND_NUM_WORKERS
+        value: 2
+    startCommand: python -m argilla_server worker --num-workers ${BACKGROUND_NUM_WORKERS}
+
+  # PostgreSQL Database
+  - type: pserv
+    name: postgres-db
+    runtime: docker
+    repo: https://github.com/render-examples/postgres
+    plan: standard
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: everywhere
+    envVars:
+      - key: POSTGRES_USER
+        value: postgres
+      - key: POSTGRES_PASSWORD
+        generateValue: true
+      - key: POSTGRES_DB
+        value: argilla
+
+  # Elasticsearch service
+  - type: elasticsearch
+    name: elasticsearch
+    plan: standard
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: everywhere
+    disk:
+      name: elasticsearch-data
+      mountPath: /usr/share/elasticsearch/data
+      sizeGB: 10
+
+  # Redis service
+  - type: redis
+    name: redis
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: everywhere 
