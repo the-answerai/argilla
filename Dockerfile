@@ -7,18 +7,23 @@ USER root
 ENV ARGILLA_HOME_PATH=/var/lib/argilla
 
 # Install dependencies
-RUN apt-get update && apt-get install -y curl git
+RUN apt-get update && apt-get install -y curl git unzip
 
 # Install Node.js and npm
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install -y nodejs
 RUN npm --version
 
-# Clone node-argilla from GitHub instead of copying
-RUN git clone https://github.com/the-answerai/node-argilla.git /node-argilla
+# Download and extract node-argilla from GitHub instead of git clone
+RUN mkdir -p /node-argilla
+WORKDIR /node-argilla
+RUN curl -L https://github.com/the-answerai/node-argilla/archive/refs/heads/main.zip -o node-argilla.zip && \
+    unzip node-argilla.zip && \
+    mv node-argilla-main/* . && \
+    mv node-argilla-main/.* . 2>/dev/null || true && \
+    rm -rf node-argilla.zip node-argilla-main
 
 # Install node-argilla dependencies
-WORKDIR /node-argilla
 RUN npm install
 
 # Expose the Argilla port
