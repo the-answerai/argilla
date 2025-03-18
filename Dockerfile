@@ -2,15 +2,15 @@ FROM argilla/argilla-server:latest
 
 # Set environment variables
 ENV ARGILLA_HOME_PATH=/var/lib/argilla
-
-# These will be overridden by Render environment variables
-# Default values are provided for local development only
-ENV ARGILLA_DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres-db:5432/argilla
+ENV ARGILLA_ELASTICSEARCH=http://elasticsearch:9200
+ENV ARGILLA_DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres:5432/argilla
 ENV ARGILLA_REDIS_URL=redis://redis:6379/0
+
+# Install dependencies
+RUN apt-get update && apt-get install -y curl gnupg git
 
 # For Render deployment, we'll use OpenSearch instead of Elasticsearch
 # Install OpenSearch
-RUN apt-get update && apt-get install -y curl gnupg
 RUN curl -fsSL https://artifacts.opensearch.org/publickeys/opensearch.pgp | apt-key add -
 RUN echo "deb https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt stable main" | tee -a /etc/apt/sources.list.d/opensearch-2.x.list
 RUN apt-get update && apt-get install -y opensearch
@@ -19,14 +19,13 @@ RUN apt-get update && apt-get install -y opensearch
 ENV ARGILLA_SEARCH_ENGINE=opensearch
 ENV ARGILLA_OPENSEARCH=http://localhost:9200
 
-# Copy the node-argilla package
-COPY ./node-argilla /node-argilla
-
 # Install Node.js and npm
-RUN apt-get update && apt-get install -y curl
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install -y nodejs
 RUN npm --version
+
+# Clone node-argilla from GitHub instead of copying
+RUN git clone https://github.com/the-answerai/node-argilla.git /node-argilla
 
 # Install node-argilla dependencies
 WORKDIR /node-argilla
