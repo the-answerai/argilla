@@ -1,5 +1,8 @@
 FROM argilla/argilla-server:latest
 
+# Set user to root for installation operations
+USER root
+
 # Set environment variables
 ENV ARGILLA_HOME_PATH=/var/lib/argilla
 ENV ARGILLA_ELASTICSEARCH=http://elasticsearch:9200
