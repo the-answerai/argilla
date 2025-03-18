@@ -11,10 +11,7 @@ services:
       - key: ARGILLA_HOME_PATH
         value: /var/lib/argilla
       - key: ARGILLA_DATABASE_URL
-        fromService:
-          type: pserv
-          name: postgres-db
-          property: connectionString
+        value: postgresql+asyncpg://postgres:${POSTGRES_PASSWORD}@postgres-db:5432/argilla
       - key: ARGILLA_REDIS_URL
         fromService:
           type: redis
