@@ -1,4 +1,3 @@
-
 <h1 align="center">
   <a href=""><img src="https://github.com/dvsrepo/imgs/raw/main/rg.svg" alt="Argilla" width="150"></a>
   <br>
@@ -152,6 +151,53 @@ dataset.records.log(records=data, mapping={"text": "review"})
 
 🎉 You have successfully created your first dataset with Argilla. You can now access it in the Argilla UI and start annotating the records.
 Need more info, check out [our docs](https://docs.argilla.io/latest/).
+
+### Local Development with Docker
+
+For local development or server deployment, you can run Argilla using Docker:
+
+```bash
+# Clone the repository
+git clone https://github.com/argilla-io/argilla.git
+cd argilla
+
+# Navigate to the Docker deployment directory
+cd examples/deployments/docker
+
+# Start the containers
+docker-compose up -d
+```
+
+This will start Argilla and all required services (Elasticsearch, PostgreSQL, Redis). 
+
+#### Accessing the Argilla UI
+
+Once the containers are running, you can access the Argilla UI at:
+```
+http://localhost:6900
+```
+
+#### Default Credentials
+
+Argilla creates a default user you can use to sign in:
+- Username: `argilla`
+- Password: `1234`
+- API Key: `argilla.apikey`
+
+#### Creating a New User
+
+If the default credentials don't work, you can create a new admin user:
+
+```bash
+docker exec -it docker-argilla-1 python3 -m argilla_server database users create \
+  --first-name Admin \
+  --username admin \
+  --password password123 \
+  --role admin \
+  --workspace default
+```
+
+For more detailed deployment instructions, refer to our [Deployment Guide](deployment_answerai.md).
 
 ## 🥇 Contributors
 

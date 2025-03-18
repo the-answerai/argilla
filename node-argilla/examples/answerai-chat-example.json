@@ -1,0 +1,88 @@
+[
+    {
+        "action": [
+            {
+                "elements": [
+                    null
+                ],
+                "id": "61beeb58-6ebe-4d51-aa0b-41d4c546ff08",
+                "mapping": {
+                    "approve": "Yes",
+                    "reject": "No",
+                    "toolCalls": []
+                }
+            }
+        ],
+        "agentReasoning": [
+            {
+                "agentName": "agent",
+                "messages": [
+                    "hello"
+                ],
+                "nodeId": "seqAgent_0",
+                "nodeName": "seqAgent",
+                "sourceDocuments": [
+                    {
+                        "metadata": {
+                            "author": "John Doe",
+                            "date": "2024-08-24"
+                        },
+                        "pageContent": "This is the content of the page."
+                    }
+                ],
+                "state": {},
+                "usedTools": [
+                    {
+                        "tool": "Name of the tool",
+                        "toolInput": {
+                            "input": "search query"
+                        },
+                        "toolOutput": "string"
+                    }
+                ]
+            }
+        ],
+        "chatId": "chat12345",
+        "chatType": "INTERNAL",
+        "chatflowid": "d290f1ee-6c54-4b01-90e6-d701748f0852",
+        "content": "Hello, how can I help you today?",
+        "createdDate": "2024-08-24T14:15:22Z",
+        "fileAnnotations": [
+            {
+                "fileName": "file.txt",
+                "filePath": "path/to/file"
+            }
+        ],
+        "fileUploads": [
+            {
+                "data": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABjElEQVRIS+2Vv0oDQRDG",
+                "mime": "image/png",
+                "name": "image.png",
+                "type": "image"
+            }
+        ],
+        "id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+        "leadEmail": "user@example.com",
+        "memoryType": "string",
+        "role": "apiMessage",
+        "sessionId": "string",
+        "sourceDocuments": [
+            {
+                "metadata": {
+                    "author": "John Doe",
+                    "date": "2024-08-24"
+                },
+                "pageContent": "This is the content of the page."
+            }
+        ],
+        "usedTools": [
+            {
+                "tool": "Name of the tool",
+                "toolInput": {
+                    "input": "search query"
+                },
+                "toolOutput": "string"
+            }
+        ]
+    }
+]
