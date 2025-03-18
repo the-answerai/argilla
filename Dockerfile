@@ -5,8 +5,9 @@ USER root
 
 # Set environment variables
 ENV ARGILLA_HOME_PATH=/var/lib/argilla
-ENV ARGILLA_SEARCH_ENGINE=database
-ENV ARGILLA_DATABASE_URL=sqlite:////var/lib/argilla/argilla.db
+ENV ARGILLA_SEARCH_ENGINE=elasticsearch
+ENV ARGILLA_ELASTICSEARCH=http://localhost:9200
+ENV ARGILLA_DATABASE_URL=sqlite+aiosqlite:////var/lib/argilla/argilla.db
 ENV ARGILLA_DISABLE_TELEMETRY=1
 
 # Install minimal dependencies
