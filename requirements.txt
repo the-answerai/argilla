@@ -1,0 +1,2 @@
+-e ./argilla-server[postgresql]
+gunicorn 

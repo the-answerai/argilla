@@ -1,0 +1,51 @@
+{
+    "name": "Argilla",
+    "description": "Open-source tool for exploring, labeling, and monitoring data for NLP projects",
+    "repository": "https://github.com/argilla-io/argilla",
+    "keywords": [
+        "python",
+        "nlp",
+        "machine-learning",
+        "data-annotation"
+    ],
+    "addons": [
+        "heroku-postgresql:essential-0"
+    ],
+    "env": {
+        "ARGILLA_DATABASE_URL": {
+            "description": "Database URL (will be set automatically by Heroku PostgreSQL addon)",
+            "required": true,
+            "value": "DATABASE_URL"
+        },
+        "ARGILLA_HF_HUB_DISABLE_TELEMETRY": {
+            "description": "Disable HuggingFace Hub telemetry",
+            "value": "1"
+        },
+        "ARGILLA_AUTH_USER": {
+            "description": "Default admin username",
+            "value": "admin"
+        },
+        "ARGILLA_AUTH_PASSWORD": {
+            "description": "Default admin password (change this)",
+            "value": "12345678"
+        }
+    },
+    "buildpacks": [
+        {
+            "url": "heroku/python"
+        }
+    ],
+    "formation": {
+        "web": {
+            "quantity": 1,
+            "size": "basic"
+        },
+        "worker": {
+            "quantity": 1,
+            "size": "basic"
+        }
+    },
+    "scripts": {
+        "postdeploy": "python heroku_postdeploy.py"
+    }
+}
